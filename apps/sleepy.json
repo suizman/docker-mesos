@@ -1,5 +1,5 @@
 {
-    "id": "sleep",
+    "id": "sleepy",
     "cmd": "sleep 40000 > /tmp/sleep",
     "cpus": 0.1,
     "mem": 1.0,
