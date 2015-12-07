@@ -1,0 +1,25 @@
+{
+    "id": "sleep",
+    "cmd": "sleep 40000 > /tmp/sleep",
+    "cpus": 0.1,
+    "mem": 1.0,
+    "requirePorts": false,
+    "instances": 1,
+    "healthChecks": [
+        {
+            "protocol": "COMMAND",
+            "command": { "value": "ls -l /tmp/sleep" },
+            "maxConsecutiveFailures": 1,
+            "gracePeriodSeconds": 2,
+            "intervalSeconds": 2,
+            "timeoutSeconds": 2
+        }
+    ],
+    "backoffSeconds": 1,
+    "backoffFactor": 1.15,
+    "maxLaunchDelaySeconds": 3,
+    "upgradeStrategy": {
+        "minimumHealthCapacity": 1,
+        "maximumOverCapacity": 0.2
+    }
+}

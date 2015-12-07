@@ -1,0 +1,17 @@
+zk:
+  image: jplock/zookeeper
+
+master:
+  image: mesosphere/mesos-master:0.25.0-0.2.70.ubuntu1404
+  command: --zk=zk://dockermesos_zk_1:2181/mesos --work_dir=/var/lib/mesos --log_dir=/tmp --quorum=1 --slave_ping_timeout=2secs --max_slave_ping_timeouts=2secs
+
+slave:
+  image: mesosphere/mesos-slave:0.25.0-0.2.70.ubuntu1404
+  command: --master=zk://dockermesos_zk_1:2181/mesos --work_dir=/var/lib/mesos --log_dir=/tmp
+  privileged: true
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+
+marathon:
+  image: mesosphere/marathon:latest
+  command: --master dockermesos_master_1:5050 --zk zk://dockermesos_zk_1:2181/marathon
