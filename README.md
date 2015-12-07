@@ -4,7 +4,7 @@
 
 ### Requirements:
 
-*  docker
+* docker 1.9 (For advanced networking)
 * docker-compose
 
 
