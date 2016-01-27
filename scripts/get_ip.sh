@@ -1,6 +1,6 @@
 #/bin/bash
 
-for i in master marathon; do
+for i in master marathon slave; do
   URL=$(docker inspect --format '{{ .NetworkSettings.Networks.dockermesos.IPAddress }}' dockermesos_$i\_1)
   echo -e "$i: http://$URL:PORT"
 done
