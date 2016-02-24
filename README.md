@@ -4,24 +4,24 @@
 
 ### Requirements:
 
-* docker 1.9 (For advanced networking)
-* docker-compose
+* docker 1.9+
+* docker-compose (V2)
 
 
 # Usage:
 Bring up the cluster
 
 ```
-$ docker-compose --x-networking up -d
-```
-
-Get Mesos/Marathon IPs
-```
-$ scripts/get_ip.sh
+$ docker-compose up -d
 ```
 
 Deploy basic app
 
 ```
 $ scripts/deploy.sh sleepy
+```
+
+```
+Access Mesos Master http://localhost:5050
+Access Marathon http://localhost:8080
 ```
