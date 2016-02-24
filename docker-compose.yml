@@ -1,17 +1,30 @@
-zk:
-  image: jplock/zookeeper
+version: '2'
+services:
+  zk:
+    image: jplock/zookeeper
+    network_mode: host
 
-master:
-  image: mesosphere/mesos-master:0.26.0-0.2.145.ubuntu1404
-  command: --zk=zk://dockermesos_zk_1:2181/mesos --work_dir=/var/lib/mesos --log_dir=/tmp --quorum=1 --slave_ping_timeout=2secs --max_slave_ping_timeouts=2secs
+  master:
+    image: mesosphere/mesos-master:0.27.1-2.0.226.ubuntu1404
+    network_mode: host
+    command: --zk=zk://127.0.0.1:2181/mesos --work_dir=/var/lib/mesos --log_dir=/tmp --quorum=1 --slave_ping_timeout=2secs --max_slave_ping_timeouts=2secs --hostname=127.0.0.1 --cluster=local
+    privileged: true
+    depends_on:
+     - zk
 
-slave:
-  image: mesosphere/mesos-slave:0.26.0-0.2.145.ubuntu1404
-  command: --master=zk://dockermesos_zk_1:2181/mesos --work_dir=/var/lib/mesos --log_dir=/tmp
-  privileged: true
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock:ro
+  slave:
+    image: mesosphere/mesos-slave:0.27.1-2.0.226.ubuntu1404
+    network_mode: host
+    command: --master=zk://127.0.0.1:2181/mesos --work_dir=/var/lib/mesos --log_dir=/tmp --containerizers=mesos --hostname=127.0.0.1
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    depends_on:
+     - master
 
-marathon:
-  image: mesosphere/marathon:latest-dev
-  command: --master dockermesos_master_1:5050 --zk zk://dockermesos_zk_1:2181/marathon
+  marathon:
+    image: mesosphere/marathon:latest-dev
+    network_mode: host
+    command: --master 127.0.0.1:5050 --zk zk://127.0.0.1:2181/marathon 
+    depends_on:
+     - master
