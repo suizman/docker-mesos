@@ -25,3 +25,15 @@ $ scripts/deploy.sh sleepy
 Access Mesos Master http://localhost:5050
 Access Marathon http://localhost:8080
 ```
+
+# Dev mode
+
+Choose the number of slaves to bring up setting the num_slaves.
+
+```
+docker-compose -f docker-mesos-dev.yml up
+```
+
+```
+Access Mesos Master http://localhost
+```

@@ -1,0 +1,7 @@
+version: '2'
+services:
+  mesos-dev:
+    image: mesosphere/mesos-slave:0.28.1
+    entrypoint: mesos-local --num_slaves=1000
+    ports:
+      - 80:5050
